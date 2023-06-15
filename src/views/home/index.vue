@@ -1,6 +1,32 @@
 <script setup>
-import HomeSerchBox from './cpns/home-serch-box.vue';
+import { watch, computed } from 'vue'
 
+import HomeSerchBox from './cpns/home-serch-box.vue';
+import HomeCategories from './cpns/home-categories.vue'
+import HomeContent from './cpns/home-content.vue';
+import SearchBar from '@/components/searchBar/index.vue'
+
+import { useHomeStore } from '@/stores/modules/home'
+import useScroll from '@/hooks/useScroll'
+
+const { isReachBottom, scrollTop } = useScroll()
+const homeStore = useHomeStore()
+
+const stopWatch = watch(isReachBottom, () => {
+    if (isReachBottom.value) {
+        homeStore.fetchHouselistData().then(res => {
+            isReachBottom.value = false
+        })
+    }
+})
+const isShowSeachBar = computed(() => {
+    return scrollTop.value > 480
+})
+// watch页面销毁 watch就会随之销毁
+// onUnmounted(() => {
+//     console.log('停止侦听');
+//     stopWatch()
+// })
 
 </script>
 
@@ -14,29 +40,47 @@ import HomeSerchBox from './cpns/home-serch-box.vue';
         </header>
         <main>
             <HomeSerchBox />
+            <HomeCategories />
         </main>
-
-
+        <footer>
+            <SearchBar class="seach-bar" v-show="isShowSeachBar" />
+            <HomeContent />
+        </footer>
     </div>
 </template>
 
 <style lang="less" scoped>
-header {
-    display: flex;
-    flex-direction: column;
+.home {
+    margin-bottom: 16px;
 
-    .title {
+    header {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 46px;
-        color: var(--primary-color);
-        font-size: 16px;
-        font-weight: 600;
-    }
+        flex-direction: column;
 
-    img {
-        width: 100%;
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 46px;
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        img {
+            width: 100%;
+        }
     }
+}
+
+.seach-bar {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    padding: 16px 16px 10px;
+    background-color: #fff;
 }
 </style>

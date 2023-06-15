@@ -1,6 +1,9 @@
 import axios from "axios";
 import { BASE_URL,TIMEOUT } from "./config";
 
+// loading逻辑
+import { useIndex } from "@/stores";
+
 class Request{
     constructor(baseURL, timeout=10000) {
         // 报错的原因是axios.create中属性名为baseURL 想要简写就不能为所欲为的写
@@ -8,16 +11,20 @@ class Request{
           baseURL,
           timeout
         })
-        // this.instance.interceptors.request.use(config=>{
-        //     return config
-        // },err=>{
-        //     return err
-        // })
-        // this.instance.interceptors.response.use(res=>{
-        //     return res
-        // },err=>{
-        //     return err
-        // })
+        this.instance.interceptors.request.use((config)=>{
+            useIndex().isLoading=true
+            return config
+        },err=>{
+            useIndex().isLoading=true
+            return err
+        })
+        this.instance.interceptors.response.use(res=>{
+            useIndex().isLoading=false
+            return res
+        },err=>{
+            useIndex().isLoading=false
+            return err
+        })
     }
     request(config){
         return new Promise((resolve,reject)=>{

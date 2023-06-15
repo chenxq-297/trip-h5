@@ -1,10 +1,16 @@
 <script setup>
 import { getAssetURL } from '@/utils/getAssetsImg'
 import { tabBarData } from '@/assets/data/tabBar';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const route = useRoute()
 const router = useRouter()
+
+watch(route, (newRoute) => {
+    const Index = tabBarData.findIndex(item => item.path === newRoute.path)
+    currentActive.value = Index
+})
 const currentActive = ref(0)
 const barItemClk = (item, currentIndex) => {
     currentActive.value = currentIndex
@@ -32,6 +38,7 @@ const barItemClk = (item, currentIndex) => {
     height: 50px;
 
     border-top: 1px solid #f3f3f3;
+    background: #fff;
 
     display: flex;
 
