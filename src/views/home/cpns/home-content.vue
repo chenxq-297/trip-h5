@@ -15,8 +15,11 @@ const router = useRouter()
 
 // 详情按钮
 const itemClick = (item) => {
-    useDetail().getDetailInfoDates(item.houseId)
-    router.push('/detail/' + item.houseId)
+    // 优化：数据加载完成之后进行跳转 这样就不用再子页面v-if判断是否拿到值
+    useDetail().getDetailInfoDates(item.houseId).then(res => {
+        router.push('/detail/' + item.houseId)
+    })
+
 }
 </script>
 

@@ -1,35 +1,47 @@
 import { onActivated,onDeactivated,onMounted,onUnmounted, ref } from "vue";
 import {debounce} from "underscore"
 
-export default function useScroll(){
+export default function useScroll(elRef){
+    let el = window
+
     const isReachBottom=ref(false)
     // 滚动的内容(卷上去的)到顶部高度
     const scrollTop=ref('')
+    const clientHeight = ref(0)
+    const scrollHeight = ref(0)
 
     const scrollListenerHandler=debounce(()=>{
-        const clientHeight = document.documentElement.clientHeight
-        scrollTop.value= document.documentElement.scrollTop
-        const scrollHeight = document.documentElement.scrollHeight
-        // console.log(clientHeight,scrollTop,scrollHeight);
-        if(clientHeight+scrollTop.value+6 >= scrollHeight){
+        if(el===window){
+            clientHeight.value = document.documentElement.clientHeight
+            scrollTop.value= document.documentElement.scrollTop
+            scrollHeight.value = document.documentElement.scrollHeight
+            // console.log(clientHeight,scrollTop,scrollHeight);
+        }else{
+            clientHeight.value = el.clientHeight
+            scrollTop.value= el.scrollTop
+            scrollHeight.value = el.scrollHeight
+            // console.log(clientHeight,scrollTop,scrollHeight);
+        }
+        if(clientHeight.value+scrollTop.value+6 >= scrollHeight.value){
             // console.log('到达底部');
             isReachBottom.value=true
         }
     },200)
     onMounted(()=>{
-        window.addEventListener('scroll',scrollListenerHandler)
+        if(elRef) el = elRef.value
+        el.addEventListener('scroll',scrollListenerHandler)
     })
 
     onActivated(()=>{
-        window.addEventListener('scroll',scrollListenerHandler)
+        el.addEventListener('scroll',scrollListenerHandler)
     })
 
     onDeactivated(()=>{
-        window.removeEventListener('scroll',scrollListenerHandler)
+        el.removeEventListener('scroll',scrollListenerHandler)
     })
 
     onUnmounted(()=>{
-        window.removeEventListener('scroll',scrollListenerHandler)
+        el.removeEventListener('scroll',scrollListenerHandler)
     })
 
     return { isReachBottom,scrollTop }

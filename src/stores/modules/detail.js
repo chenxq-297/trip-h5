@@ -14,7 +14,7 @@ const useDetail=defineStore('detail',{
     getters:{
         swipeData:(state)=>state.detailInfos.mainPart?.topModule.housePicture.housePics,
         topInfos:(state)=>state.detailInfos.mainPart?.topModule,
-        houseFacility:(state)=>state.detailInfos.mainPart?.dynamicModule,
+        houseFacility:(state)=>state.detailInfos.mainPart?.dynamicModule.facilityModule.houseFacility,
         landlord:(state)=>state.detailInfos.mainPart?.dynamicModule.landlordModule,
         comment:(state)=>state.detailInfos.mainPart?.dynamicModule.commentModule,
         orderRules:(state)=>state.detailInfos.mainPart?.dynamicModule.rulesModule.orderRules,
