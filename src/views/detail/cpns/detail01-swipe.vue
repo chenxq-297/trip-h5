@@ -35,9 +35,9 @@ console.log(props.text, 1, props.swipeData);
 //     }
 //     valueArray.push(item)
 // }
-console.log(297);
+// console.log(297);
 const getCategoryIndex = (item) => {
-    console.log(item?.title);
+    // console.log(item?.title);
     const valueArray = swipeGroup[item?.enumPictureCategory]
     return valueArray?.findIndex(data => data === item) + 1
 }

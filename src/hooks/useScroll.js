@@ -23,11 +23,12 @@ export default function useScroll(elRef){
             // console.log(clientHeight,scrollTop,scrollHeight);
         }
         if(clientHeight.value+scrollTop.value+6 >= scrollHeight.value){
-            // console.log('到达底部');
+            console.log('到达底部');
             isReachBottom.value=true
         }
     },200)
     onMounted(()=>{
+        // 被挂载 保证elref有值传进来
         if(elRef) el = elRef.value
         el.addEventListener('scroll',scrollListenerHandler)
     })

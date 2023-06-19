@@ -27,26 +27,62 @@ const { swipeData, topInfos, houseFacility, landlord, comment, orderRules, posit
 const onClickLeft = () => router.back()
 
 onMounted(() => {
+    // 初始化tabControlActive
     allEl.value = document.querySelectorAll("main > div[id]")
     names.value = Object.values(allEl.value).map(item => item.id)
+    offTops.value = Object.values(allEl.value).map(item => item.offsetTop)
 })
 
 const allEl = ref(null)
 const names = ref([])
+const offTops = ref([])
 const detailRef = ref()
-const { scrollTop } = useScroll()
 
-const tabClick = (index) => document.querySelectorAll("main > div[id]")[index].scrollIntoView(true)
+const { scrollTop } = useScroll(detailRef)
+
+// 点击跳转对应tabControlActive
+// const tabClick = (index) => document.querySelectorAll("main > div[id]")[index].scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" })
+let isClick = false
+let currentDistance = -1
+const tabClick = (index) => {
+    let distance = Object.values(allEl.value)[index].offsetTop - 44
+    isClick = true
+    currentDistance = distance
+    detailRef.value.scrollTo({
+        top: distance,
+        behavior: "smooth"
+    })
+}
+// 显示tabControlActive
+const showTabControlActive = computed(() => scrollTop.value >= 300)
+const tabControlRef = ref()
 
 watch(scrollTop, (newVal) => {
-    console.log(newVal, 'newval');
+    // 每个组件举例顶部的数值
+    if (newVal === currentDistance) {
+        console.log(currentDistance, 297);
+        isClick = false
+    }
+    if (isClick) return
+    let index = offTops.value.length - 1
+    for (let i = 0; i <= offTops.value.length; i++) {
+        if (offTops.value[i] > newVal + 44) {
+            index = i - 1
+            break
+        }
+    }
+    tabControlRef.value.setCurrentIndex(index)
+    // tabClick(index)
+
+    // console.log(values);
 })
 
 </script>
 
 <template>
     <div class="detail" ref="detailRef">
-        <tabControlActive class="tabs" :titles="names" @tab-item-click="tabClick" />
+        <tabControlActive v-show="showTabControlActive" class="tabs" :titles="names" @tab-item-click="tabClick"
+            ref="tabControlRef" />
         <van-nav-bar title="房屋详情" left-text="旅途" left-arrow @click-left="onClickLeft" />
         <main>
             <DetailSwipe :swipe-data="swipeData" />
@@ -66,6 +102,13 @@ watch(scrollTop, (newVal) => {
 </template>
 
 <style lang="less" scoped>
+.detail {
+    position: relative;
+    z-index: 8;
+    height: 100vh;
+    overflow-y: auto;
+}
+
 .tabs {
     position: fixed;
     z-index: 9;

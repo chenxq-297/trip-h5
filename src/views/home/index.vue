@@ -1,5 +1,5 @@
 <script setup>
-import { watch, computed } from 'vue'
+import { watch, computed, onUnmounted, onActivated } from 'vue'
 
 import HomeSerchBox from './cpns/home-serch-box.vue';
 import HomeCategories from './cpns/home-categories.vue'
@@ -22,11 +22,14 @@ const stopWatch = watch(isReachBottom, () => {
 const isShowSeachBar = computed(() => {
     return scrollTop.value > 480
 })
+onActivated(() => {
+    window.scrollTo({ top: scrollTop.value })
+})
 // watch页面销毁 watch就会随之销毁
-// onUnmounted(() => {
-//     console.log('停止侦听');
-//     stopWatch()
-// })
+onUnmounted(() => {
+    console.log('停止侦听');
+    stopWatch()
+})
 
 </script>
 
