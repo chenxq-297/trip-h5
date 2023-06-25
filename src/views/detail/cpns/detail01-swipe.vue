@@ -13,14 +13,13 @@ const props = defineProps({
 // 
 // let swipeGroup = {}
 // watchEffect(() => {
-let swipeGroup = props.swipeData.reduce((acc, item) => {
+const swipeGroup = props.swipeData.reduce((acc, item) => {
     const valueArray = acc[item.enumPictureCategory] || []
     valueArray.push(item)
     acc[item.enumPictureCategory] = valueArray
     return acc
 }, {})
 // })
-console.log(props.text, 1, props.swipeData);
 
 // console.log(props.swipeData, swipeGroup);
 // 对数据进行转换
@@ -38,8 +37,9 @@ console.log(props.text, 1, props.swipeData);
 // console.log(297);
 const getCategoryIndex = (item) => {
     // console.log(item?.title);
-    const valueArray = swipeGroup[item?.enumPictureCategory]
-    return valueArray?.findIndex(data => data === item) + 1
+    // console.log(valueArray?.findIndex(data => data === item) + 1);
+    const valueArray = swipeGroup[item.enumPictureCategory]
+    return valueArray.findIndex(data => data.orderIndex === item.orderIndex) + 1
 }
 </script>
 
