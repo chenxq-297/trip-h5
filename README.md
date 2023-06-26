@@ -1,14 +1,10 @@
-# hyTrip
+# hyTrip 旅游移动端项目
 
-This template should help get you started developing with Vue 3 in Vite.
+vue3+pinia+router+vite
 
-## Recommended IDE Setup
+本项目主要用于学习目的，不开放后端接口和百度 API 等涉及隐私的内容。
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+如果有其他小伙伴对此感兴趣，欢迎一同探讨学习~
 
 ## Project Setup
 
