@@ -21,6 +21,7 @@ const { categories } = storeToRefs(homeStore)
 
 <style lang="less" scoped>
 .categories {
+    position: relative;
     display: flex;
     overflow-x: auto;
     height: 80px;
