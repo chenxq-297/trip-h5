@@ -6,7 +6,7 @@ vue3+pinia+router+vite
 
 如果有其他小伙伴对此感兴趣，欢迎一同探讨学习~
 
-补充：本项目的接口由[coderwhy](https://github.com/coderwhy)提供
+补充：本项目的接口以及设计部分实现由[coderwhy](https://github.com/coderwhy)提供
 
 ## Project Setup
 
