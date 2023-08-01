@@ -1,4 +1,4 @@
-# hyTrip 旅游移动端项目
+# Trip-h5 旅游移动端项目
 
 vue3+pinia+router+vite
 
